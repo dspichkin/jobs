@@ -1,0 +1,28 @@
+FROM python:3.8
+ENV LOCAL_RUN 0
+
+RUN apt-get update && apt-get install -y \
+    vim \
+    wget \
+    htop \
+    python-dev \
+    chromium \
+    git-core \
+    xvfb
+
+ADD ./requirements /app/requirements
+RUN pip install -r /app/requirements/base.txt
+
+
+ADD ./djangoapps /app/djangoapps
+COPY ./compose/web/start-django.sh /app/djangoapps/start-django.sh
+
+WORKDIR /app/djangoapps
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY . .
+
+# Set Dokcer entry
+ENTRYPOINT ["/app/djangoapps/start-django.sh"]
