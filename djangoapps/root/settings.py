@@ -186,6 +186,10 @@ LOGGING = {
         '()': 'django.utils.log.RequireDebugFalse'}
     },
     'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'default'
@@ -215,13 +219,17 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True
         },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
         'django.request': {
-            'handlers': ['file', 'mail_admins'],
+            'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': False
         },
         'django.security': {
-            'handlers': ['file', 'mail_admins'],
+            'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': False,
         },
