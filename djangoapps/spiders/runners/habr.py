@@ -35,10 +35,12 @@ class GetAdvHabr():
 
     def run(self, *args, **options):
         chrome_options = Options()
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument('--headless')
+        if not settings.LOCAL_RUN:
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument('--headless')
 
         self.cities = self.getCities()
+        print ("settings.CHROMEDRIVER_PATH", settings.CHROMEDRIVER_PATH)
         self.driver = webdriver.Chrome(settings.CHROMEDRIVER_PATH, chrome_options=chrome_options)
         try:
             for page in range(1, 20):
@@ -147,8 +149,9 @@ class GetAdvHabr():
     def getAdvData(self, url, advHabrObj):
         logger.info(f"Get selected url: {url}")
         chrome_options = Options()
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument('--headless')
+        if not settings.LOCAL_RUN:
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument('--headless')
         driver = webdriver.Chrome(settings.CHROMEDRIVER_PATH, chrome_options=chrome_options)
         driver.get(url)
 

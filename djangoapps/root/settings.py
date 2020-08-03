@@ -12,10 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-LOCAL_RUN = None
+LOCAL_RUN = int(os.environ.get("LOCAL_RUN", default=0))
 # LOCAL_RUN = True
 
-environment = os.environ.get('ENVIRONMENT', 'jobs')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,16 +144,16 @@ REDIS_DB = int(os.environ.get('REDIS_DB', 0))
 if LOCAL_RUN:
     REDIS_HOST = 'localhost'
 
+
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://{}:{}/0'.format(REDIS_HOST, REDIS_PORT)
 # Celery
 BROKER_URL = os.environ.get('SPIDER_CELERY_BROKER_URL', CELERY_RESULT_BACKEND)
 
-CHROMEDRIVER_PATH = os.path.join(BASE_DIR, 'compose', 'chromedriver')
 if LOCAL_RUN:
-    CHROMEDRIVER_PATH = os.path.join(CHROMEDRIVER_PATH, 'mac', 'chromedriver')
+    CHROMEDRIVER_PATH = os.path.join(BASE_DIR, '..', 'compose', 'chromedriver', 'mac', 'chromedriver')
 else:
-    CHROMEDRIVER_PATH = os.path.join(CHROMEDRIVER_PATH, 'linux', 'chromedriver')
+    CHROMEDRIVER_PATH = os.path.join(BASE_DIR, '..', 'chromedriver', 'linux', 'chromedriver')
 
 LOGS_ROOT = os.path.join(BASE_DIR, '..', 'logs')
 if not os.path.exists(LOGS_ROOT):
@@ -236,3 +235,10 @@ LOGGING = {
 
 if DEBUG is True:
     LOGGING['handlers']['console']['class'] = 'rich.logging.RichHandler'
+
+LOAD_SETTINGS_LOCAL = int(os.environ.get("LOAD_SETTINGS_LOCAL", default=1))
+if LOAD_SETTINGS_LOCAL:
+    try:
+        from .settings_local import *
+    except ImportError:
+        pass
