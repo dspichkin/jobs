@@ -11,8 +11,8 @@ app.config_from_object('django.conf:settings')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'add-every-1-hour': {
+    'add-scheduled-task-get_adv_habr': {
         'task': 'spiders.tasks.get_adv_habr',
-        'schedule': crontab(minute=16, hour='9,12,15,18,21,22,23'),
+        'schedule': crontab(minute=0, hour='9,12,15,18'),
     },
 }
