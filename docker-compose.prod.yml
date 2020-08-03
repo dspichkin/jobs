@@ -1,0 +1,86 @@
+version: "3"
+services:
+    jobs_db:
+        image: postgres:12.0-alpine
+        container_name: jobs_db
+        restart: unless-stopped
+        environment:
+            - POSTGRES_DB=jobs
+            - POSTGRES_USER=jobs_user
+            - POSTGRES_PASSWORD=jobs_#*9adnje2
+            - POSTGRES_HOST=jobs_db
+        expose:
+            - "5432"
+        volumes:
+            - db_data:/var/lib/postgresql/data
+    redis:
+        image: redis:4.0.1
+        container_name: jobs_redis
+        restart: unless-stopped
+        command: redis-server
+        expose:
+            - "6379"
+    celery:
+        build:
+            context: .
+            dockerfile: ./compose/celery/Dockerfile
+        container_name: jobs_celery
+        restart: unless-stopped
+        volumes:
+            - ./djangoapps:/app/src/
+        links:
+            - jobs_db
+        depends_on:
+            - redis
+        environment:
+            - ENVIRONMENT
+            - LOCAL_RUN=0
+        env_file:
+            - ./.env.prod
+    celery-beat:
+        build:
+            context: .
+            dockerfile: ./compose/celery_beat/Dockerfile
+        container_name: jobs_celery_beat
+        restart: unless-stopped
+        volumes:
+            - ./djangoapps:/app/src/
+        depends_on:
+            - redis
+        environment:
+            - ENVIRONMENT
+            - LOCAL_RUN=0
+        env_file:
+            - ./.env.prod
+    web:
+        container_name: jobs_web
+        build:
+            context: .
+            dockerfile: ./compose/web/Dockerfile.prod
+        volumes:
+            - static_volume:/app/djangoapps/static
+            - media_volume:/app/djangoapps/media
+        restart: unless-stopped
+        expose:
+            - 8080
+        env_file:
+            - ./.env.prod
+        depends_on:
+            - jobs_db
+    nginx:
+        container_name: jobs_nginx
+        build:
+            context: .
+            dockerfile: ./compose/nginx/Dockerfile
+        restart: unless-stopped
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/djangoapps/static
+        depends_on:
+            - web
+        
+volumes:
+    db_data: {}
+    static_volume: {}
+    media_volume: {}
