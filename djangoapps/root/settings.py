@@ -217,17 +217,17 @@ LOGGING = {
             'propagate': True
         },
         'django.request': {
-            'handlers': ['mail_admins', 'file'],
+            'handlers': ['file', 'mail_admins'],
             'level': 'ERROR',
             'propagate': False
         },
         'django.security': {
-            'handlers': ['mail_admins', 'file'],
+            'handlers': ['file', 'mail_admins'],
             'level': 'ERROR',
             'propagate': False,
         },
         'spiders': {
-            'handlers': ['mail_admins', 'file'],
+            'handlers': ['file', 'mail_admins'],
             'level': 'DEBUG',
             'propagate': True
         },
