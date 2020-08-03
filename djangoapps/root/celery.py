@@ -19,6 +19,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'add-every-1-hour': {
         'task': 'spiders.tasks.get_adv_habr',
-        'schedule': 3600,
+        'schedule': 7200,
     },
 }
