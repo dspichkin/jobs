@@ -8,3 +8,4 @@ logs/*
 src/node_modules/*
 src/dist/*
 .env
+**/settings_local.*
