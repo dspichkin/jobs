@@ -53,7 +53,7 @@ services:
     web:
         build:
             context: .
-            dockerfile: ./compose/web/Dockerfile
+            dockerfile: ./compose/web/Dockerfile.dev
         container_name: web
         restart: unless-stopped
         ports:

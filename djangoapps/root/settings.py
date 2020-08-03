@@ -38,10 +38,6 @@ else:
     if os.environ.get("DJANGO_ALLOWED_HOSTS"):
         ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-ADMINS = (
-    ('user783', 'user783@gmail.com'),
-)
-
 
 # Application definition
 
@@ -139,6 +135,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Cache
 REDIS_HOST = os.environ.get('REDIS_HOST', 'jobs_redis')
@@ -163,16 +160,19 @@ LOGS_ROOT = os.path.join(BASE_DIR, '..', 'logs')
 if not os.path.exists(LOGS_ROOT):
     os.mkdir(LOGS_ROOT)
 
-EMAIL_SUBJECT_PREFIX = '[Discounter/Local] '
+ADMINS = [
+    ('user783', 'user783@gmail.com'),
+]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_SUBJECT_PREFIX = '[Jobs Analytics] '
 EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_HOST_USER = 'user783@webdebblog.ru'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'jobanalyticru@yandex.ru'
+EMAIL_HOST_PASSWORD = 'Ap%4CzM^0Ci%e'
 EMAIL_PORT = 465
-EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
-SERVER_EMAIL = 'noreply@webdebblog.ru'
-DEFAULT_FROM_EMAIL = 'info@webdebblog.ru'
+DEFAULT_FROM_EMAIL = 'jobanalyticru@yandex.ru'
+SERVER_EMAIL = 'jobanalyticru@yandex.ru'
 
 LOGGING = {
     'version': 1,
@@ -188,13 +188,13 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'class': 'rich.logging.RichHandler',
+            'class': 'logging.StreamHandler',
             'formatter': 'default'
         },
         'mail_admins': {
             'level': 'ERROR',
-            # 'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['require_debug_false'],
             'include_html': True
         },
         'file': {
@@ -212,19 +212,19 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['console'],
-            'level': 'ERROR',
+            'handlers': ['console',],
+            'level': 'DEBUG',
             'propagate': True
         },
         'django.request': {
             'handlers': ['mail_admins', 'file'],
             'level': 'ERROR',
-            'propagate': True
+            'propagate': False
         },
-        'celery': {
-            'handlers': ['file_celery'],
-            'level': 'DEBUG',
-            'propagate': True
+        'django.security': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'spiders': {
             'handlers': ['mail_admins', 'file'],
@@ -233,3 +233,6 @@ LOGGING = {
         },
     }
 }
+
+if DEBUG is True:
+    LOGGING['handlers']['console']['class'] = 'rich.logging.RichHandler'
