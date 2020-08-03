@@ -40,7 +40,6 @@ class GetAdvHabr():
             chrome_options.add_argument('--headless')
 
         self.cities = self.getCities()
-        print ("settings.CHROMEDRIVER_PATH", settings.CHROMEDRIVER_PATH)
         self.driver = webdriver.Chrome(settings.CHROMEDRIVER_PATH, chrome_options=chrome_options)
         try:
             for page in range(1, 20):
@@ -137,7 +136,7 @@ class GetAdvHabr():
                         if advHabrObj.work_type != WORK_TYPE_PART:
                             advHabrObj.work_type = WORK_TYPE_PART
                             advHabrObj.save()
-                    if text == u'Можно удалённо':
+                    if text == u'Можно удалённо' or text == u"Можно удаленно":
                         if advHabrObj.remote is not True:
                             advHabrObj.remote = True
                             advHabrObj.save()
