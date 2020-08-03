@@ -13,6 +13,7 @@ RUN pip install -r /app/requirements/base.txt
 ADD ./compose/celery/start_celery.sh /app/djangoapps/start_celery.sh
 
 ADD ./djangoapps /app/djangoapps
+COPY ./compose/chromedriver /app/chromedriver/
 WORKDIR /app/djangoapps
 
 ENV PYTHONDONTWRITEBYTECODE 1
