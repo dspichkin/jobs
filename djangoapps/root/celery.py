@@ -13,10 +13,10 @@ app.config_from_object('django.conf:settings')
 
 app.autodiscover_tasks()
 
-
+# 18000 - 5 hours
 app.conf.beat_schedule = {
     'add-every-5-hour': {
         'task': 'spiders.tasks.get_adv_habr',
-        'schedule': 18000,
+        'schedule': 300,
     },
 }
