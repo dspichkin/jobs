@@ -1,0 +1,45 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <h1> Sales Summary </h1>
+{% endblock %}
+{% block result_list %}
+<div class="results">
+    <table>
+    <thead>
+      <tr>
+        <th>
+          <div class="text">
+            <a href="#">Category</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Weight</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Procent</a>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in summary %}
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td> {{ row.title }} </td>
+        <td> {{ row.weight  }} </td>
+        <td>
+          <strong>
+            {% widthratio row.weight summary_total 100 %}%
+          </strong>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- ... -->
+{% endblock %}
+{% block pagination %}{% endblock %}
