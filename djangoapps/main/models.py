@@ -73,3 +73,10 @@ class AdvHabr(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+
+
+class SkillPopularity(Skill):
+    class Meta:
+        proxy = True
+        verbose_name = 'Skill Popularity'
+        verbose_name_plural = 'Skill Popularity'
