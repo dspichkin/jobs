@@ -13,7 +13,7 @@ from django.conf import settings
 # from django.utils import timezone
 
 from main.models import (
-    Skill, AdvHabr, Company,
+    Skill, AdvHabr, Company, HistoryUpdated,
     WORK_TYPE_ANY, WORK_TYPE_PART, WORK_TYPE_FULL)
 
 logger = logging.getLogger(__name__)
@@ -84,6 +84,8 @@ class Command(BaseCommand):
                                     advHabrObj.last_update.strftime('%Y-%m-%d') != dt.strftime('%Y-%m-%d'):
                                 advHabrObj.last_update = dt
                                 history_update = advHabrObj.history_update
+                                HistoryUpdated.objects.get_or_create(advhabr=advHabrObj, created=dt)
+
                                 if dt_raw not in history_update:
                                     history_update.append(dt_raw)
                                     advHabrObj.history_update = history_update

@@ -1,6 +1,7 @@
 import jsonfield
 
 from django.db import models
+from django.db.models import Q
 
 
 class Skill(models.Model):
@@ -74,9 +75,119 @@ class AdvHabr(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+    def get_speciality(self):
+        if 'DevOps' in self.title:
+            return 'DevOps'
+        if 'тестиров' in self.title:
+            return 'Тестирование'
+        if 'налитик' in self.title:
+            return 'Аналитика'
+        if 'SAP' in self.title:
+            return 'SAP'
+        if 'Swift' in self.title:
+            return 'iOS разработчик'
+
+        if self.skills.filter(
+            Q(title__icontains='Фронтенд') |
+            Q(title__icontains='JavaScript') |
+            Q(title__icontains='PHP') |
+            Q(title__icontains='Vue.js') |
+            Q(title__icontains='Веб-разработка') |
+            Q(title__icontains='React')
+                ).exists():
+            return 'Веб разработка'
+
+        if self.skills.filter(title__icontains='Тестирование').exists():
+            return 'Тестирование'
+        if self.skills.filter(title__icontains='Python').exists():
+            return 'Python разработчик'
+        if self.skills.filter(title__icontains='1с').exists():
+            return '1C разработка'
+        if self.skills.filter(
+            Q(title__icontains='DevOps') |
+                Q(title__icontains='Администрирование')).exists():
+            return 'DevOps'
+        if self.skills.filter(
+            Q(title__icontains='.NET') |
+                Q(title__icontains='C#')).exists():
+            return '.NET разработка'
+        if self.skills.filter(title__icontains='Java').exists():
+            return 'Java разработчик'
+        if self.skills.filter(
+            Q(title__icontains='Менеджмент') |
+                Q(title__icontains='Управление разработкой')).exists():
+            return 'IT Менеджмент'
+        if self.skills.filter(title__icontains='SAP').exists():
+            return 'SAP'
+        if self.skills.filter(
+            Q(title__icontains='Objective-С') | Q(title__icontains='Swift')
+                ).exists():
+            return 'iOS разработчик'
+        if self.skills.filter(
+            Q(title__icontains='Android') | Q(title__icontains='Kotlin')
+                ).exists():
+            return 'Android разработчик'
+        if self.skills.filter(title__icontains='Scala').exists():
+            return 'Scala разработчик'
+        if self.skills.filter(title__icontains='Маркетинг').exists():
+            return 'Маркетинг'
+        if self.skills.filter(
+            Q(title__icontains='Аналитика') |
+                Q(title__icontains='анализ')).exists():
+            return 'Аналитика'
+        if self.skills.filter(title__icontains='Кадры').exists():
+            return 'HR'
+        if self.skills.filter(title__icontains='C++').exists():
+            return 'C++ разработчик'
+        if self.skills.filter(title__icontains='Журналистика').exists():
+            return 'IT журналистика'
+        if self.skills.filter(
+            Q(title__icontains='Веб-дизайн') |
+            Q(title__icontains='UI/UX дизайн')
+                ).exists():
+            return 'Веб-дизайн'
+        return None
+
+    get_speciality.short_description = 'Категория'
+
+
+class HistoryUpdated(models.Model):
+    created = models.DateTimeField()
+    advhabr = models.ForeignKey(AdvHabr, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = u'Дата обновления объявления с Хабр.Карьера'
+        verbose_name_plural = u'Дата обновления объявлений с Хабр.Карьера'
+        ordering = ('-created',)
+
+    def __str__(self):
+        return f"{self.created}"
+
+
+class AdvHabrCalculated(models.Model):
+    year = models.SmallIntegerField(verbose_name=u'год')
+    month = models.SmallIntegerField(verbose_name=u'месяц', null=True, blank=True)
+    speciality = models.CharField(verbose_name=u'специальность', max_length=256)
+    values = jsonfield.JSONField(verbose_name=u'значения', default={})
+
+    class Meta:
+        verbose_name = u'Посчитанные кол-во объявлений с Хабр.Карьера'
+        verbose_name_plural = u'Посчитанные кол-во объявлений с Хабр.Карьера'
+        ordering = ('-year', 'month')
+
+    def __str__(self):
+        return f"{self.year}-{self.month}: {self.speciality}"
+
 
 class SkillPopularity(Skill):
     class Meta:
         proxy = True
-        verbose_name = 'Skill Popularity'
-        verbose_name_plural = 'Skill Popularity'
+        verbose_name = 'Популярные языки программирования'
+        verbose_name_plural = 'Популярные языки программирования'
+
+
+class SpecialityPopularity(AdvHabr):
+    class Meta:
+        proxy = True
+        verbose_name = 'Популярные специальность'
+        verbose_name_plural = 'Популярные специальности'
