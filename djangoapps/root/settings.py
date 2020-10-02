@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+<<<<<<< HEAD
+=======
+import datetime
+>>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
 from corsheaders.defaults import default_headers
 
 LOCAL_RUN = int(os.environ.get("LOCAL_RUN", default=0))
@@ -49,7 +53,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+<<<<<<< HEAD
     'corsheaders',
+=======
+    'rest_framework_jwt',
+    'corsheaders',
+    'accounts',
+>>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
     'main',
     'spiders'
 ]
@@ -83,8 +93,24 @@ TEMPLATES = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
 WSGI_APPLICATION = 'root.wsgi.application'
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

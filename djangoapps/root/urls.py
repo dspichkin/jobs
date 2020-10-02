@@ -14,14 +14,52 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+=======
+from django.urls import path, re_path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+from accounts.views import (UserInfoView,)
+
+# def sredirect(request, url):
+#     return HttpResponseRedirect("/#/%s" % url)
+
+
+# def app(request):
+#     return render(request, 'index.html')
+>>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
 
 urlpatterns = [
+    re_path(r'^api/auth-jwt', obtain_jwt_token),
+    re_path(r'^api/auth-jwt-refresh', refresh_jwt_token),
+    re_path(r'^api/auth-jwt-verify', verify_jwt_token),
+
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('main.urls'))
+=======
+    path('api/user/info', UserInfoView.as_view(), name='user'),
+
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('main.urls'))
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)
+
+
+urlpatterns += [
+    # JS-приложение
+    # url(r'^$', app, name='app'),
+    # url(r'^(?P<url>.*)$', sredirect),
+>>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
 ]
 
 if settings.DEBUG:
