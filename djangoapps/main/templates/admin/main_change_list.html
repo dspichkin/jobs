@@ -13,6 +13,35 @@
               padding: 4px 8px;
               margin: 0;">Получить новые объявления</button>
         </form>
+         <form action="calc_action/" method="POST">
+            {% csrf_token %}
+            <select name="year">
+                <option value="2020">2020</option>
+            </select>
+            <select name="month">
+                <option value="">Все месяцы</option>
+                <option value="1">Январь</option>
+                <option value="2">Февраль</option>
+                <option value="3">Март</option>
+                <option value="4">Апрель</option>
+                <option value="5">Май</option>
+                <option value="6">Июнь</option>
+                <option value="7">Июль</option>
+                <option value="8">Август</option>
+                <option value="9">Сентябрь</option>
+                <option value="10">Октябрь</option>
+                <option value="11">Ноябрь</option>
+                <option value="12">Декабрь</option>
+            </select>
+            <button type="submit" class="button" title="Пересчитать объявления" style="font-size: 13px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              cursor: pointer;
+              height: 34px;
+              line-height: 1;
+              padding: 4px 8px;
+              margin: 0;">Пересчитать объявления</button>
+        </form>
     </div>
     <br />
     {{ block.super }}
