@@ -11,10 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-<<<<<<< HEAD
-=======
 import datetime
->>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
 from corsheaders.defaults import default_headers
 
 LOCAL_RUN = int(os.environ.get("LOCAL_RUN", default=0))
@@ -53,13 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-<<<<<<< HEAD
     'corsheaders',
-=======
-    'rest_framework_jwt',
-    'corsheaders',
-    'accounts',
->>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
     'main',
     'spiders'
 ]
@@ -196,13 +187,12 @@ if not os.path.exists(LOGS_ROOT):
     os.mkdir(LOGS_ROOT)
 
 ADMINS = [
-    ('user783', 'user783@gmail.com'),
 ]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_SUBJECT_PREFIX = '[Jobs Analytics] '
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_HOST_USER = 'jobanalyticru@yandex.ru'
-EMAIL_HOST_PASSWORD = 'Ap%4CzM^0Ci%e'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 

@@ -21,7 +21,7 @@ export default {
   methods: {
   },
   mounted () {
-    console.log('!!!!!', this.$route.name)
+    console.log('!!!!! AppMain', this.$route.name)
   }
 
 }

@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <h3 class="title">Job Anaylyzer</h3>
@@ -30,27 +29,6 @@
       </el-form-item>
     </el-form>
   </div>
-=======
-  <section class="text-gray-700 body-font">
-    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
-      <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-        <h1 class="title-font font-medium text-3xl text-gray-900">Job Anaylyzer</h1>
-        <p class="leading-relaxed mt-4">Poke slow-carb mixtape knausgaard, typewriter street art gentrify hammock starladder roathse. Craies vegan tousled etsy austin.</p>
-      </div>
-      <form ref="loginForm" class="lg:w-2/6 md:w-1/2 bg-gray-200 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
-        :model="loginForm" :rules="loginRules">
-        <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign Up</h2>
-        <input class="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4" placeholder="username" type="text"
-          v-model="loginForm.username">
-        <input class="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4" placeholder="password" type="password"
-          v-model="loginForm.password" @keyup.enter="handleLogin">
-        <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-          @click.prevent="handleLogin">Button</button>
-        <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
-      </form>
-    </div>
-  </section>
->>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
 </template>
 
 <script>
@@ -104,7 +82,6 @@ export default {
       }
     },
     handleLogin () {
-<<<<<<< HEAD
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -120,23 +97,6 @@ export default {
           return false
         }
       })
-=======
-      // this.$refs.loginForm.validate(valid => {
-      // if (valid) {
-      this.loading = true
-      this.$store.dispatch('Login', this.loginForm).then(() => {
-        this.loading = false
-        // this.$router.push({ path: this.redirect || '/' })
-        this.$router.push({ path: '/' })
-      }).catch((e) => {
-        this.loading = false
-      })
-      //   } else {
-      //     // console.log('error submit!!')
-      //     return false
-      //   }
-      // })
->>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
     }
   }
 }

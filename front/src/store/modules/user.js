@@ -30,10 +30,6 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
           const data = response
-<<<<<<< HEAD
-=======
-          console.log('data', data)
->>>>>>> 44c86ddb397150005437e96a60cc4105a209b650
           setToken(data.token)
           commit('SET_TOKEN', data.token)
           resolve()
